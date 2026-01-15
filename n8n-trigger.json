@@ -1,0 +1,35 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "wake-word",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        656,
+        208
+      ],
+      "name": "Wake Word Trigger",
+      "id": "2f18fd27-a48f-4406-885a-ee45fdabe8c3",
+      "webhookId": "6c7c69ac-5853-43e3-8a92-3c8040835153"
+    }
+  ],
+  "connections": {},
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "28fc262fe2e279a975f9bb01fc6745607253ae9981cff9373522201d43aa94e9"
+  }
+}
