@@ -1,0 +1,85 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "path": "dashboard-status",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "name": "Dashboard Status",
+      "id": "f4e806a2-21e9-43c5-9dad-59d7eb8c8d35",
+      "webhookId": "423a95c3-d810-4af4-b8ed-b31aa104c6e5"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [
+        224,
+        0
+      ],
+      "name": "Return Status",
+      "id": "e8a800e6-b853-470e-b3c7-5a05465e1684"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"listening\": false,\n  \"speaking\": false,\n  \"command\": \"\",\n  \"response\": \"\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        432,
+        0
+      ],
+      "id": "6b812d6e-90ba-4a99-ad79-b3aabf1d588f",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Dashboard Status": {
+      "main": [
+        [
+          {
+            "node": "Return Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return Status": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "28fc262fe2e279a975f9bb01fc6745607253ae9981cff9373522201d43aa94e9"
+  }
+}
