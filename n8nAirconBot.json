@@ -1,0 +1,568 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.command }}",
+        "options": {
+          "systemMessage": "You are Moses, a helpful home automation AI assistant. You control smart home devices and answer questions naturally and conversationally.\n\nAVAILABLE TOOLS:\n1. Calculator - For math calculations\n2. Aircon Power On - Turn the air conditioner on\n3. Aircon Power Off - Turn the air conditioner off  \n4. Aircon Temp Down - Decrease air conditioner temperature\n5. Aircon Temp Up - Increase air conditioner temperature\n6. Aircon Fan 1 - Set air conditioner fan to speed 1 (low)\n7. Aircon Fan 2 - Set air conditioner fan to speed 2 (medium-low)\n8. Aircon Fan 3 - Set air conditioner fan to speed 3 (medium-high)\n9. Aircon Fan 4 - Set air conditioner fan to speed 4 (high)\n\nINSTRUCTIONS:\n- Keep responses SHORT and natural (1-2 sentences max)\n- Confirm actions: \"Turning on the air conditioner\" or \"Setting temperature up\"\n- Be conversational and friendly\n- If asked about capabilities, mention you can control the aircon and do calculations\n- Don't explain technical details unless asked\n- If you don't have a tool for something, politely say so\n\nEXAMPLES:\nUser: \"Turn on my air con\"\nYou: \"Turning on the air conditioner now.\"\n\nUser: \"Make it cooler\"\nYou: \"Lowering the temperature.\"\n\nUser: \"What's 25 times 4?\"\nYou: \"That's 100.\"\n\nUser: \"Set fan to high\"\nYou: \"Setting the fan to maximum speed.\"\n\nRemember: Keep it SHORT and natural. No long explanations!"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        944,
+        0
+      ],
+      "id": "55567c35-fab8-4f49-bf35-5c671baa66d9",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "gpt-3.5-turbo"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        432,
+        224
+      ],
+      "id": "a567aace-e517-4263-bda2-ea32aabf73ba",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "VwRxC32V0dSEj2c7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        560,
+        224
+      ],
+      "id": "39fa13f7-108e-4f82-a81f-89fedd37eed0",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8123/api/services/remote/send_command",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5ZDVmMGZmYjIzZDk0NDIxOGQyY2FjZDMxZmVmMGNhYiIsImlhdCI6MTc2NDA4Mjc4MCwiZXhwIjoyMDc5NDQyNzgwfQ.E0jNH3a0XJ1pRuJ5CXsQPpu_DhmQ-eAiTugFd3iGf5U"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"entity_id\": \"remote.moses_ai_broadlink_rm_4pro\",\n  \"command\": [\"power on\"],\n  \"device\": \"aircon\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        688,
+        224
+      ],
+      "id": "da65d8b2-e3c6-418c-8418-c7e3189d26c9",
+      "name": "Aircon Power On"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8123/api/services/remote/send_command",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5ZDVmMGZmYjIzZDk0NDIxOGQyY2FjZDMxZmVmMGNhYiIsImlhdCI6MTc2NDA4Mjc4MCwiZXhwIjoyMDc5NDQyNzgwfQ.E0jNH3a0XJ1pRuJ5CXsQPpu_DhmQ-eAiTugFd3iGf5U"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"entity_id\": \"remote.moses_ai_broadlink_rm_4pro\",\n  \"command\": [\"power off\"],\n  \"device\": \"aircon\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        816,
+        224
+      ],
+      "id": "65743abc-e183-404a-994c-5b31794c4a88",
+      "name": "Aircon Power Off"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8123/api/services/remote/send_command",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5ZDVmMGZmYjIzZDk0NDIxOGQyY2FjZDMxZmVmMGNhYiIsImlhdCI6MTc2NDA4Mjc4MCwiZXhwIjoyMDc5NDQyNzgwfQ.E0jNH3a0XJ1pRuJ5CXsQPpu_DhmQ-eAiTugFd3iGf5U"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"entity_id\": \"remote.moses_ai_broadlink_rm_4pro\",\n  \"command\": [\"temp down\"],\n  \"device\": \"aircon\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        944,
+        224
+      ],
+      "id": "bee4792f-9f74-4806-b412-de9d294431cf",
+      "name": "Aircon Temp Down"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8123/api/services/remote/send_command",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5ZDVmMGZmYjIzZDk0NDIxOGQyY2FjZDMxZmVmMGNhYiIsImlhdCI6MTc2NDA4Mjc4MCwiZXhwIjoyMDc5NDQyNzgwfQ.E0jNH3a0XJ1pRuJ5CXsQPpu_DhmQ-eAiTugFd3iGf5U"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"entity_id\": \"remote.moses_ai_broadlink_rm_4pro\",\n  \"command\": [\"temp up\"],\n  \"device\": \"aircon\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        1072,
+        224
+      ],
+      "id": "99e26323-0523-4e6e-83c7-4e90bccf7d12",
+      "name": "Aircon Temp Up"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8123/api/services/remote/send_command",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5ZDVmMGZmYjIzZDk0NDIxOGQyY2FjZDMxZmVmMGNhYiIsImlhdCI6MTc2NDA4Mjc4MCwiZXhwIjoyMDc5NDQyNzgwfQ.E0jNH3a0XJ1pRuJ5CXsQPpu_DhmQ-eAiTugFd3iGf5U"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"entity_id\": \"remote.moses_ai_broadlink_rm_4pro\",\n  \"command\": [\"fan 1\"],\n  \"device\": \"aircon\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        1200,
+        224
+      ],
+      "id": "e29ff1b5-ef06-470c-9a55-59539ce315ab",
+      "name": "Aircon Fan 1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8123/api/services/remote/send_command",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5ZDVmMGZmYjIzZDk0NDIxOGQyY2FjZDMxZmVmMGNhYiIsImlhdCI6MTc2NDA4Mjc4MCwiZXhwIjoyMDc5NDQyNzgwfQ.E0jNH3a0XJ1pRuJ5CXsQPpu_DhmQ-eAiTugFd3iGf5U"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"entity_id\": \"remote.moses_ai_broadlink_rm_4pro\",\n  \"command\": [\"fan 2\"],\n  \"device\": \"aircon\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        1328,
+        224
+      ],
+      "id": "1bc6ef6a-4ac5-48c2-8593-cc921d364377",
+      "name": "Aircon Fan 2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8123/api/services/remote/send_command",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5ZDVmMGZmYjIzZDk0NDIxOGQyY2FjZDMxZmVmMGNhYiIsImlhdCI6MTc2NDA4Mjc4MCwiZXhwIjoyMDc5NDQyNzgwfQ.E0jNH3a0XJ1pRuJ5CXsQPpu_DhmQ-eAiTugFd3iGf5U"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"entity_id\": \"remote.moses_ai_broadlink_rm_4pro\",\n  \"command\": [\"fan 3\"],\n  \"device\": \"aircon\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        1456,
+        224
+      ],
+      "id": "ee2447f3-8d58-4355-82fd-c979ae10a874",
+      "name": "Aircon Fan 3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8123/api/services/remote/send_command",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5ZDVmMGZmYjIzZDk0NDIxOGQyY2FjZDMxZmVmMGNhYiIsImlhdCI6MTc2NDA4Mjc4MCwiZXhwIjoyMDc5NDQyNzgwfQ.E0jNH3a0XJ1pRuJ5CXsQPpu_DhmQ-eAiTugFd3iGf5U"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"entity_id\": \"remote.moses_ai_broadlink_rm_4pro\",\n  \"command\": [\"fan 4\"],\n  \"device\": \"aircon\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        1584,
+        224
+      ],
+      "id": "b121990f-180d-4eb3-88b2-8c26e1330671",
+      "name": "Aircon Fan 4"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "voice-command",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        624,
+        0
+      ],
+      "name": "Voice Command Trigger",
+      "id": "bbb2ebea-7b9a-4715-9cff-7810a6e99a6a",
+      "webhookId": "5a82e69d-1791-4c88-a99c-37b031c93226"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8123/api/services/remote/send_command",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5ZDVmMGZmYjIzZDk0NDIxOGQyY2FjZDMxZmVmMGNhYiIsImlhdCI6MTc2NDA4Mjc4MCwiZXhwIjoyMDc5NDQyNzgwfQ.E0jNH3a0XJ1pRuJ5CXsQPpu_DhmQ-eAiTugFd3iGf5U"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"entity_id\": \"remote.moses_ai_broadlink_rm_4pro\",\n  \"command\": [\"power on\"],\n  \"device\": \"aircon\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        432,
+        432
+      ],
+      "id": "cf40b289-8a31-4a9e-a173-67ae44392476",
+      "name": "aircon power off"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        208,
+        432
+      ],
+      "id": "a80482db-990c-4f8a-9b37-551bd63e942b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"speaking\": true,\n  \"response\": \"{{ $json.output }}\"\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1296,
+        0
+      ],
+      "id": "e46b48b0-368a-4a13-9c7b-95283c8eea9e",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aircon Power On": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aircon Power Off": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aircon Temp Down": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aircon Temp Up": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aircon Fan 1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aircon Fan 2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aircon Fan 3": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aircon Fan 4": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Voice Command Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "aircon power off",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {
+    "Voice Command Trigger": [
+      {
+        "headers": {
+          "host": "localhost:5678",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+          "sec-ch-ua": "\"Chromium\";v=\"142\", \"Google Chrome\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+          "content-type": "application/json",
+          "sec-ch-ua-mobile": "?0",
+          "accept": "*/*",
+          "origin": "null",
+          "sec-fetch-site": "cross-site",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-dest": "empty",
+          "accept-encoding": "gzip, deflate, br, zstd",
+          "accept-language": "en-US,en;q=0.9"
+        },
+        "params": {},
+        "query": {},
+        "body": {
+          "command": "turn off my air con"
+        },
+        "webhookUrl": "http://localhost:5678/webhook/voice-command",
+        "executionMode": "production"
+      }
+    ]
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "28fc262fe2e279a975f9bb01fc6745607253ae9981cff9373522201d43aa94e9"
+  }
+}
